@@ -41,3 +41,19 @@ h1, h2, h3 {
 ```
 
 https://portal.ogc.org/files/?artifact_id=33269
+
+
+https://example.com/gwc/service/wmts?layer=workspace_name:layer_name&tilematrixset=EPSG%3A900913&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fpng&TileMatrix=EPSG%3A900913%3A14&TileCol=15083&TileRow=9778
+
+
+To test the server, run the Rust program and make a GET request to the following URL:
+
+http://localhost:8080/tiles?tile_matrix=EPSG%3A900913%3A14&tile_col=15083&tile_row=9778
+
+You should receive a response containing the parsed URL parameters:
+
+TileMatrix: EPSG:900913:14
+Projection: 900913
+Zoom: 14
+TileCol: 15083
+TileRow: 9778

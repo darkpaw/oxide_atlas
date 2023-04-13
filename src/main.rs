@@ -2,6 +2,8 @@ mod matrixset_loader;
 mod wmts_functions;
 mod tile_rendering_flodraw;
 mod tile_rendering;
+mod server;
+
 
 fn main() {
     let (latitude, longitude) = (40.7128, -74.0060);
@@ -21,4 +23,7 @@ fn main() {
     wmts_functions::test_tile_corners();
 
     tile_rendering::test_tile_rendering();
+
+    server::start_server().expect("Start server failed.");
+
 }
