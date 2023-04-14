@@ -19,9 +19,22 @@ struct TileMatrix {
     scale_denominator: f64,
     #[serde(rename = "TopLeftCorner")]
     top_left_corner: String,
+    #[serde(rename = "MatrixWidth")]
+    matrix_width: u32,
+    #[serde(rename = "MatrixHeight")]
+    matrix_height: u32,
 }
 
-pub(crate) fn load_tile_matrix_data(file_path: &str) -> Result<HashMap<String, (f64, (f64, f64))>, Box<dyn std::error::Error>> {
+#[derive(Debug, Deserialize)]
+pub struct TileMatrixDef {
+    pub identifier: String,
+    pub scale_denominator: f64,
+    pub top_left_corner: (f64, f64),
+    pub matrix_width: u32,
+    pub matrix_height: u32,
+}
+
+pub(crate) fn load_tile_matrix_data(file_path: &str) -> Result<HashMap<String, TileMatrixDef>, Box<dyn std::error::Error>> {
     let file = File::open(file_path)?;
     let buf_reader = BufReader::new(file);
     let tile_matrix_set: TileMatrixSet = from_reader(buf_reader)?;
@@ -37,8 +50,18 @@ pub(crate) fn load_tile_matrix_data(file_path: &str) -> Result<HashMap<String, (
             .map(|s| f64::from_str(s).unwrap())
             .collect();
         let top_left_corner = (coords[0], coords[1]);
+        let matrix_width = tile_matrix.matrix_width;
+        let matrix_height = tile_matrix.matrix_height;
 
-        result.insert(identifier, (scale_denominator, top_left_corner));
+        let tile_matrix_def = TileMatrixDef {
+            identifier: identifier.clone(),
+            scale_denominator,
+            top_left_corner,
+            matrix_width,
+            matrix_height
+        };
+
+        result.insert(identifier, tile_matrix_def);
     }
 
     Ok(result)

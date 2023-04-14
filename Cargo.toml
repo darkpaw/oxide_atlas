@@ -6,7 +6,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-proj = "0.25.2"  # Is OK with libproj 8.2.1 which Ubuntu 22.04 has.
+#proj = "0.25.2"  # Is OK with libproj 8.2.1 which Ubuntu 22.04 has.
 serde = { version = "1.0", features = ["derive"] }
 serde-xml-rs = "0.6.0"
 # flo_draw = "0.2.1"
