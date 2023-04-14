@@ -4,11 +4,17 @@ use actix_web::web::Data;
 use std::env;
 use crate::wmts_functions::wmts_tile_corner_coordinates;
 use crate::matrixset_loader::TileMatrixDef;
+use crate::tile_rendering::{convert_to_png_bytes, render_debug_tile};
 
 #[get("/tiles")]
 async fn get_tile(data: Data<HashMap<String, TileMatrixDef>>, web::Query(info): web::Query<TileInfo>) -> impl Responder {
 
     let projection = info.tile_matrix.split(':').collect::<Vec<&str>>()[1];
+
+    if projection != "900913" {
+        return HttpResponse::NotFound().body("Projection not supported.");
+    }
+
     let zoom = info.tile_matrix.split(':').collect::<Vec<&str>>()[2];
     let tile_indices = (info.tile_col, info.tile_row);
 
@@ -25,10 +31,17 @@ async fn get_tile(data: Data<HashMap<String, TileMatrixDef>>, web::Query(info): 
                 x_tl, y_tl, x_br, y_br
             );
 
-            HttpResponse::Ok().body(format!(
-                "TileMatrix: {}\nProjection: {}\nZoom: {}\nTileCol: {}\nTileRow: {}\nTileX: {}\nTileY: {}",
-                info.tile_matrix, projection, zoom, info.tile_col, info.tile_row, x_tl, y_tl
-            ))
+            let tile_image = render_debug_tile(tile_matrix_def, tile_indices.0, tile_indices.1);
+            let tile_png_bytes = convert_to_png_bytes(&tile_image);
+
+            // HttpResponse::Ok().body(format!(
+            //     "TileMatrix: {}\nProjection: {}\nZoom: {}\nTileCol: {}\nTileRow: {}\nTileX: {}\nTileY: {}",
+            //     info.tile_matrix, projection, zoom, info.tile_col, info.tile_row, x_tl, y_tl
+            // ))
+
+            return HttpResponse::Ok()
+                .content_type("image/png")
+                .body(tile_png_bytes)
 
         },
         None => {
