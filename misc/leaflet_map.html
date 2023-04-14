@@ -29,7 +29,7 @@
   const wmtsUrl = 'http://localhost:8080/tiles?tile_matrix=EPSG%3A900913%3A{z}&tile_col={x}&tile_row={y}';
 
   // Add the WMTS layer to the map
-  const wmtsLayer = L.tileLayer.wms(wmtsUrl, {
+  const wmtsLayer = L.tileLayer(wmtsUrl, {
     format: 'image/png',
     transparent: true
   }).addTo(map);

@@ -18,7 +18,18 @@ pub(crate) fn test_tile_rendering() {
 
     // Clear the image with a white background
     for pixel in image.pixels_mut() {
-        *pixel = Rgba([30, 30, 30, 0]);
+        *pixel = Rgba([0, 0, 0, 0]);
+    }
+
+    let red = Rgba([255, 0, 0, 255]);
+
+    // Draw a red border
+    for x in 0..256 {
+        image.put_pixel(x, 0, red);
+    }
+
+    for y in 0..256 {
+        image.put_pixel(0, y, red);
     }
 
     // Render the text
@@ -79,7 +90,18 @@ pub(crate) fn render_debug_tile(
 
     // Clear the image with a white background
     for pixel in image.pixels_mut() {
-        *pixel = Rgba([30, 30, 30, 0]);
+        *pixel = Rgba([0, 0, 0, 0]);
+    }
+
+    let red = Rgba([255, 0, 0, 255]);
+
+    // Draw a red border
+    for x in 0..256 {
+        image.put_pixel(x, 0, red);
+    }
+
+    for y in 0..256 {
+        image.put_pixel(0, y, red);
     }
 
     // Render the text
