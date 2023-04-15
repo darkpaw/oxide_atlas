@@ -93,7 +93,7 @@ pub(crate) fn render_debug_tile(
         *pixel = Rgba([0, 0, 0, 0]);
     }
 
-    let red = Rgba([255, 0, 0, 255]);
+    let red = Rgba([255, 20, 33, 128]);
 
     // Draw a red border
     for x in 0..256 {

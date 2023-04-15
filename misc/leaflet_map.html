@@ -18,7 +18,7 @@
 <div id="map"></div>
 <script>
   // Initialize the map
-  const map = L.map('map').setView([45.51, -122.68], 13);
+  const map = L.map('map').setView([-32.51, 151.68], 8);
 
   // Add a base layer
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -26,7 +26,7 @@
   }).addTo(map);
 
   // Define the WMTS layer URL
-  const wmtsUrl = 'http://localhost:8080/tiles?tile_matrix=EPSG%3A900913%3A{z}&tile_col={x}&tile_row={y}';
+  const wmtsUrl = '/tiles?tile_matrix=EPSG%3A900913%3A{z}&tile_col={x}&tile_row={y}';
 
   // Add the WMTS layer to the map
   const wmtsLayer = L.tileLayer(wmtsUrl, {

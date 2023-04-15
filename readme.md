@@ -57,3 +57,8 @@ Projection: 900913
 Zoom: 14
 TileCol: 15083
 TileRow: 9778
+
+
+http://localhost:8080/tiles?tile_matrix=EPSG%3A900913%3A13&tile_col=15083&tile_row=9778
+
+http://localhost:8080/map
