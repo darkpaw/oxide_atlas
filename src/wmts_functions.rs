@@ -32,10 +32,10 @@ pub fn wmts_tile_corner_coordinates(
     let tile_height = 2.0 * 20037508.3427892 / tile_matrix.matrix_height as f64; // Tile height in EPSG:3857
 
     let x_top_left = tile_matrix.top_left_corner.0 + col as f64 * tile_width;
-    let y_top_left = tile_matrix.top_left_corner.1 + row as f64 * tile_height;
+    let y_top_left = tile_matrix.top_left_corner.1 - row as f64 * tile_height;
 
     let x_bottom_right = x_top_left + tile_width;
-    let y_bottom_right = y_top_left + tile_height;
+    let y_bottom_right = y_top_left - tile_height;
 
     ((x_top_left, y_top_left), (x_bottom_right, y_bottom_right))
 }

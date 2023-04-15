@@ -62,3 +62,10 @@ TileRow: 9778
 http://localhost:8080/tiles?tile_matrix=EPSG%3A900913%3A13&tile_col=15083&tile_row=9778
 
 http://localhost:8080/map
+
+
+[YYMMDD:HHMMSSmmm] Z 8 X 235 Y 157 P 900913
+Tile corner coordinates: Top-Left (16750104.630300347, 44614764.669491574), Bottom-Right (16906647.664228387, 44771307.70341962)
+
+[YYMMDD:HHMMSSmmm] Z 8 X 238 Y 156 P 900913
+Tile corner coordinates: Top-Left (17219733.73208447, -4383204.949985139), Bottom-Right (17376276.766012512, -4539747.9839131795)

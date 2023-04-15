@@ -6,12 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.7.5/proj4.js"></script>
   <style>
     html, body, #map {
       height: 100%;
       margin: 0;
       padding: 0;
     }
+    .mouse-coordinates {
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 6px 8px;
+      border-radius: 5px;
+      text-align: center;
+      font-size: 1.6rem;
+      color: midnightblue;
+      font-family: monospace;
+    }
+
   </style>
 </head>
 <body>
@@ -33,6 +44,42 @@
     format: 'image/png',
     transparent: true
   }).addTo(map);
+
+  // Create custom control to display mouse coordinates
+  L.Control.MouseCoordinates = L.Control.extend({
+    onAdd: function (map) {
+      this._container = L.DomUtil.create('div', 'mouse-coordinates');
+      this._container.innerHTML = 'Mouse: ';
+      return this._container;
+    },
+    update: function (coordinates) {
+      this._container.innerHTML = 'Mouse: ' + coordinates;
+    }
+  });
+
+  L.control.mouseCoordinates = function(opts) {
+    return new L.Control.MouseCoordinates(opts);
+  }
+
+  var mouseCoordsControl = L.control.mouseCoordinates({ position: 'topright' });
+
+  mouseCoordsControl.addTo(map);
+
+  // Add mousemove event to update control with mouse coordinates
+  map.on('mousemove', function (e) {
+    var coordinates = e.latlng;
+    var source = new proj4.Proj('EPSG:4326'); // WGS 84
+    var destination = new proj4.Proj('EPSG:3857'); // Web Mercator (same as EPSG:900913)
+    var transformed = proj4(source, destination, [coordinates.lng, coordinates.lat]);
+    var x = transformed[0].toFixed(2);
+    var y = transformed[1].toFixed(2);
+    mouseCoordsControl.update(`(${x}, ${y})`);
+  });
+
+    // // Position the control in the top right corner
+    // mouseCoordinatesControl.setPosition('topright')
+    // map.addControl(mouseCoordinatesControl);
+
 </script>
 </body>
 </html>
